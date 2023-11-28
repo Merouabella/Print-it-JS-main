@@ -84,3 +84,35 @@ const slides = [
         "tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
     }
 ];
+
+// Définir l'indice de la diapositive actuelle
+let numero = 0 ;
+
+// Affichage des fléches sur le slider .
+ 
+const flechGauche = document.querySelector(".arrow_left");
+flechGauche.addEventListener("click" , () =>  {ChangeSlide{-1};
+});
+console.log(flechGauche)
+
+const flechDroite = document.querySelector(".arrow_right");
+flechDroite.addEventListener("click" , () =>  {ChangeSlide{-1};
+});
+console.log(flechDroite)
+
+// Slides
+
+function ChangeSlide(sens){
+	numero = numero + sens;
+	if(numero > slides.length - 1)
+	numero = 0;
+if (numero < 0)
+numero =slides.length - 1;
+console.log(numero = sens)
+
+
+// Recuperation des images et textes
+
+document.querySelector(".banner-img").src ='./assets/images/slideshow/' + [numero] ['image'];
+document.getElementById("text").innerHTML = slides[numero]['tagline'];
+}
