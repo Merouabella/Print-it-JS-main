@@ -54,3 +54,7 @@ document.querySelector(".banner-img").src ='./assets/images/slideshow/' + slides
 document.getElementById("text").innerHTML = slides[numero]['tagLine'];
 {console.log(sens)}
 }
+// Affichage des bullets points.
+
+const 
+    
