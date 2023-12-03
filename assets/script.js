@@ -1,88 +1,84 @@
 
-// Définir l'indice de la diapositive actuelle
-let currentSlideIndex = 0;
+document.addEventListener("DOMContentLoaded", function() {
+	// Définition des diapositives du carrousel
+	const slides = [
+	  {
+		image: "./assets/images/slideshow/slide1.jpg",
+		tagLine: "Impressions tous formats <span>en boutique et en ligne</span>",
+	  },
+	  {
+		image: "./assets/images/slideshow/slide2.jpg",
+		tagLine: "Tirages haute définition grand format <span>pour vos bureaux et events</span>",
+	  },
+	  {
+		image: "./assets/images/slideshow/slide3.jpg",
+		tagLine: "Grand choix de couleurs <span>de CMJN aux pantones</span>",
+	  },
+	  {
+		image: "./assets/images/slideshow/slide4.png",
+		tagLine: "Autocollants <span>avec découpe laser sur mesure</span>",
+	  },
+	];
+  
 
-// Tableau des diapositives
-const slides = [
-    {
-        "image": "slide1.jpg",
-        "tagLine": "Impressions tous formats <span>en boutique et en ligne</span>"
-    },
-    {
-        "image": "slide2.jpg",
-        "tagLine": "Tirages haute définition grand format <span>pour vos bureaux et events</span>"
-    },
-    {
-        "image": "slide3.jpg",
-        "tagLine": "Grand choix de couleurs <span>de CMJN aux pantones</span>"
-    },
-    {
-        "image": "slide4.png",
-        "tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
-    },
-	
-];
+// Variable pour suivre l'index de la diapositive actuelle
+let currentSlide = 0;
+  
+// Sélection des éléments de la bannière et des points du carrousel
+const bannerImgElement = document.querySelector(".banner-img");
+const bannerTextElement = document.querySelector("#banner > p");
+const dots = document.querySelectorAll(".dot");
+const arrowLeft = document.querySelector(".arrow_left");
+const arrowRight = document.querySelector(".arrow_right");
 
-// Définir l'indice de la diapositive actuelle
-let numero = 0 ;
+// Fonction pour mettre à jour l'affichage de la diapositive actuelle
+function updateSlide() {
+  // Récupération de la diapositive correspondante à l'index actuel
+  const slide = slides[currentSlide];
 
-// Affichage des fléches sur le slider .
- 
-const flechGauche = document.querySelector(".arrow-left");
-flechGauche.addEventListener("click" , function()  {ChangeSlide(-1);
-});
-console.log(flechGauche);
+  // Mise à jour de l'image et de la légende de la bannière
+  bannerImgElement.src = slide.image;
+  bannerTextElement.innerHTML = slide.tagLine;
 
-const flechDroite = document.querySelector(".arrow-right");
-flechDroite.addEventListener("click" ,  function()  {ChangeSlide(1);
-});
-console.log(flechDroite);
+  
+  // Mise à jour de la classe CSS des points du carrousel
+  dots.forEach((dot, i) => {
+	// Supprime la classe "dot_selected" de tous les points
+	dot.classList.remove("dot_selected");
+	// Ajoute la classe "dot_selected" uniquement au point correspondant à la diapositive actuelle
+	dots[currentSlide].classList.add("dot_selected");
+  });
 
-
-// ...
-
-// ...
-
-// Slides
-function ChangeSlide(sens) {
-    numero = numero + sens;
-
-    // Si on est à la dernière image et que l’on clique à droite
-    if (numero > slides.length - 1) {
-        numero = 0;
-    }
-
-    // Si on est à la première image et qu’on clique à gauche
-    if (numero < 0) {
-        numero = slides.length - 1;
-    }
-
-    // Recuperation des images et textes
-    document.querySelector(".banner-img").src = './assets/images/slideshow/' + slides[numero]['image'];
-    document.getElementById("text").innerHTML = slides[numero]['tagLine'];
-
-    // Mettre à jour les bullets points
-    updateBulletPoints();
+  // Sélection de la div contenant les points du carrousel
+  const dotsContainer = document.querySelector('.dots');
+  dotsContainer.innerHTML = '';
+  for (let i =0; i < slides.length; i++) {
+	const dot = document.createElement('span');
+	dot.classList.add('dot')
+	if (i === currentSlide) {
+		dot.classList.add ("dot_selected");
+	}dotsContainer.appendChild(dot);
+  }
 }
 
-
-    // Changer la couleur du point actif
-    const currentDot = document.getElementById(`dot-${numero}`);
-    currentDot.classList.add('active');
-
-
-
-// Affichage des bullets points.
-
-
-
-// Écouteurs d'événements pour les bullet points
-for (let i = 0; i < slides.length; i++) {
-    const bullet = document.getElementById(`bullet-${i}`);
-    bullet.addEventListener("click", function () {
-        ChangeSlide(i - numero); // Déplacement relatif pour naviguer directement
-    });
+const arrows = document.querySelectorAll(".arrow")
+for (const arrow of arrows) {
+	arrow.addEventListener("click", (e) => {
+		// Gestionnaire d'événement pour le clic chaque flèche
+		const arrowBtn = e.target
+		const side = arrowBtn.dataset.side
+		if(side == "left"){
+			// Passage à la diapositive précédente en utilisant l'opérateur de modulo pour boucler
+			currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+		} else {
+			currentSlide = (currentSlide + 1) % slides.length;
+		}
+		// Mise à jour de l'affichage de la diapositive
+		updateSlide()
+	})
 }
 
+// Affichage de la première diapositive lors du chargement de la page
+updateSlide();
 
-
+});
