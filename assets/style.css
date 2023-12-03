@@ -323,14 +323,10 @@ footer div {
     gap: 10px;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #aaa; /* Couleur des points non actifs */
-    cursor: pointer;
+
+/* Couleur du point actif */
+.dot .active{
+    background-color: #ff0000; /* Remplacez par la couleur de votre choix */
 }
 
-.dot.active {
-    background-color: #333; /* Couleur du point actif */
-}
+
